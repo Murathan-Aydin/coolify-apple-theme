@@ -228,6 +228,19 @@ html.dark {
 html.dark .app-main {
     --color-app: transparent;
     --color-card: var(--mat-bg);
+    /* Overlays and stat tiles inside cards (bg-base, bg-[var(--coollabs-base)]). */
+    --color-base: var(--mat-bg);
+    --coollabs-base: rgb(255 255 255 / 0.03);
+    /* Tiles and panels in the page (bg-surface, bg-raised, bg-coolgray-100). */
+    --color-surface: var(--mat-bg);
+    --color-raised: var(--mat-hover-bg);
+    --color-coolgray-100: var(--mat-bg);
+}
+
+/* Collection tiles get their glass from a ::before layer (overrides.css); the
+   card color that Coolify paints on them with !important must stay clear. */
+html.dark .app-main :is([class*="dark:bg-white/[0.05]"].rounded-xl, :is(article.group, a.group).rounded-xl) {
+    --color-card: transparent;
 }
 
 /* Same layer tints secondary buttons and view toggles with 14% / 6% of the

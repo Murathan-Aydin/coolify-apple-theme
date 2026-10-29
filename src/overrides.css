@@ -3,6 +3,11 @@
 * app.css, so its plain rules win ties and beat every Tailwind layer.
 * Selectors start with html:is(.dark, :not(.dark)) ("both themes") when they
 * must outrank a ".dark x" rule of app.css.
+*
+* Glass on Coolify's own containers is painted by a ::before layer, not by the
+* element: a backdrop-filter makes its element the containing block of every
+* position:fixed descendant, which would pin Coolify's dropdowns and the
+* resource actions panel to the card or bar instead of the viewport.
 */
 
 /* ---------------------------------------------------------------------------
@@ -120,12 +125,28 @@ html.dark .scrollbar {
     }
 
     html[data-nav-style="floating"]:is(.dark, :not(.dark)) :is(.app-topbar, .app-sidebar > div > nav, .application-settings-navigation) {
-        background-color: var(--mat-bg);
+        background-color: transparent;
         background-image: none;
-        -webkit-backdrop-filter: var(--mat-filter);
-        backdrop-filter: var(--mat-filter);
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
         border: 1px solid var(--mat-edge);
         box-shadow: var(--mat-shine), var(--glass-shadow);
+    }
+
+    html[data-nav-style="floating"]:is(.dark, :not(.dark)) .app-sidebar > div > nav {
+        position: relative;
+    }
+
+    html[data-nav-style="floating"]:is(.dark, :not(.dark)) :is(.app-topbar, .app-sidebar > div > nav, .application-settings-navigation)::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        border-radius: inherit;
+        background-color: var(--mat-bg);
+        -webkit-backdrop-filter: var(--mat-filter);
+        backdrop-filter: var(--mat-filter);
+        pointer-events: none;
     }
 
     html[data-nav-style="floating"]:is(.dark, :not(.dark)) .app-sidebar > div > nav {
@@ -140,24 +161,28 @@ html.dark .scrollbar {
 
 @media (min-width: 1280px) {
     html[data-nav-style="floating"]:is(.dark, :not(.dark)) #resource-action-hud-slot:not(:empty) {
-        background-color: var(--mat-bg);
-        -webkit-backdrop-filter: var(--mat-filter);
-        backdrop-filter: var(--mat-filter);
+        background-color: transparent;
         border: 1px solid var(--mat-edge);
         border-radius: var(--floating-radius);
         box-shadow: var(--mat-shine), var(--glass-shadow);
+    }
+
+    html[data-nav-style="floating"]:is(.dark, :not(.dark)) #resource-action-hud-slot:not(:empty)::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        border-radius: inherit;
+        background-color: var(--mat-bg);
+        -webkit-backdrop-filter: var(--mat-filter);
+        backdrop-filter: var(--mat-filter);
+        pointer-events: none;
     }
 }
 
 /* Mobile drawer. */
 html:is(.dark, :not(.dark)) .mobile-sidebar-sheet [role="dialog"] {
-    background-color: var(--mat-strong-bg);
-    background-image: none;
-    -webkit-backdrop-filter: var(--mat-strong-filter);
-    backdrop-filter: var(--mat-strong-filter);
-    border: 1px solid var(--mat-strong-edge);
     border-radius: var(--radius-sheet) 0 0 var(--radius-sheet);
-    box-shadow: var(--mat-shine), var(--glass-strong-shadow);
 }
 
 html:is(.dark, :not(.dark)) :is(.mobile-sidebar-sheet nav.sidebar-nav, .app-sidebar nav.sidebar-nav, .sidebar-footer) {
@@ -345,24 +370,45 @@ html:is(.dark, :not(.dark)) :is(.application-settings-section, .application-sett
     --card-fg-faint: var(--label-3);
 }
 
+/* Content material hosts: top-level cards and wells, boxes, collection tiles. */
 html:is(.dark, :not(.dark)) :is(.application-settings-section, .empty-state):not(:is(.application-settings-section, .application-settings-section-body) *),
 html:is(.dark, :not(.dark)) .application-settings-section-body:not(.application-settings-section *),
-html:is(.dark, :not(.dark)) :is(.box, .coolbox, .box-boarding) {
-    background: var(--mat-bg);
-    -webkit-backdrop-filter: var(--mat-filter);
-    backdrop-filter: var(--mat-filter);
+html:is(.dark, :not(.dark)) :is(.box, .coolbox, .box-boarding):not(.coolbox-loading) {
+    position: relative;
+    background: transparent;
     border: 1px solid var(--mat-content-edge);
     border-radius: var(--radius-card);
     box-shadow: var(--material-shadow);
 }
 
-html:is(.dark, :not(.dark)) :is(.box, .coolbox, .box-boarding) {
-    transition: background-color 0.18s ease, border-color 0.18s ease;
+html.dark [class~="rounded-xl"][class~="dark:bg-white/[0.05]"],
+html.dark .app-main :is(article.group, a.group).rounded-xl {
+    position: relative;
+    background: transparent !important;
+    border-color: var(--separator) !important;
+    border-radius: var(--radius-card);
 }
 
-html:is(.dark, :not(.dark)) :is(.box, .coolbox, .box-boarding):hover {
-    background: var(--mat-hover-bg);
-    box-shadow: var(--material-shadow);
+html:is(.dark, :not(.dark)) :is(.application-settings-section, .empty-state):not(:is(.application-settings-section, .application-settings-section-body) *)::before,
+html:is(.dark, :not(.dark)) .application-settings-section-body:not(.application-settings-section *)::before,
+html:is(.dark, :not(.dark)) :is(.box, .coolbox, .box-boarding):not(.coolbox-loading)::before,
+html.dark [class~="rounded-xl"][class~="dark:bg-white/[0.05]"]::before,
+html.dark .app-main :is(article.group, a.group).rounded-xl::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background-color: var(--mat-bg);
+    -webkit-backdrop-filter: var(--mat-filter);
+    backdrop-filter: var(--mat-filter);
+    transition: background-color 0.18s ease;
+    pointer-events: none;
+}
+
+html:is(.dark, :not(.dark)) :is(.box, .coolbox, .box-boarding):not(.coolbox-loading):hover::before,
+html.dark .app-main :is(article.group, a.group).rounded-xl:hover::before {
+    background-color: var(--mat-hover-bg);
 }
 
 html:is(.dark, :not(.dark)) :is(.application-settings-section, .empty-state) {
@@ -403,30 +449,26 @@ html:is(.dark, :not(.dark)) .empty-state > .empty-state-well {
     box-shadow: none;
 }
 
-/* Collections and tables (rounded-xl tiles with a white/5% fill in dark). */
-html.dark [class~="rounded-xl"][class~="dark:bg-white/[0.05]"],
-html.dark .app-main :is(article.group, a.group).rounded-xl {
-    background-color: var(--mat-bg) !important;
-    border-color: var(--separator) !important;
-    -webkit-backdrop-filter: var(--mat-filter);
-    backdrop-filter: var(--mat-filter);
-    border-radius: var(--radius-card);
-}
-
-html.dark .app-main :is(article.group, a.group).rounded-xl:hover {
-    background-color: var(--mat-hover-bg) !important;
-}
-
-html.dark [class~="rounded-xl"][class~="dark:bg-white/[0.05]"] > [class~="border-b"]:first-child {
+/* Table header rows: a light fill instead of Coolify's near-black strip. */
+html.dark [class~="rounded-xl"][class~="dark:bg-white/[0.05]"] > [class~="border-b"]:first-child,
+html:is(.dark, :not(.dark)) .data-table-header,
+html.dark .application-settings-section-body:not(.application-settings-section *) .data-table-header {
     background: var(--fill) !important;
+    color: var(--label-3);
+}
+
+/* Titles with a help tooltip: a discreet dotted underline. */
+html:is(.dark, :not(.dark)) .info-helper > .underline {
+    text-decoration-style: dotted;
+    text-decoration-color: var(--label-3);
+    text-underline-offset: 3px;
 }
 
 /* ---------------------------------------------------------------------------
    Floating surfaces: menus, listboxes, the command palette, popovers, modals.
 --------------------------------------------------------------------------- */
-html:is(.dark, :not(.dark)) :is(.surface-popover, .listbox-panel, .searchable-listbox-panel, .info-helper-popup, .auth-tooltip),
-html.dark:not([data-theme="custom"]) .listbox-panel.top-user-menu-panel-sidebar,
-html:is(.dark, :not(.dark)) .application-settings-section.application-settings-form {
+html:is(.dark, :not(.dark)) :is(.surface-popover, .listbox-panel, .searchable-listbox-panel, .info-helper-popup, .auth-tooltip, .command-palette),
+html.dark:not([data-theme="custom"]) .listbox-panel.top-user-menu-panel-sidebar {
     background: var(--mat-strong-bg);
     -webkit-backdrop-filter: var(--mat-strong-filter);
     backdrop-filter: var(--mat-strong-filter);
@@ -438,8 +480,36 @@ html:is(.dark, :not(.dark)) :is(.listbox-panel, .searchable-listbox-panel, .info
     border-radius: 12px;
 }
 
+html:is(.dark, :not(.dark)) .command-palette :is(.command-palette-header, .command-palette-body) {
+    background: transparent;
+    box-shadow: none;
+}
+
+/* Strong material hosts: modals, the mobile drawer and the auth card. */
+html:is(.dark, :not(.dark)) :is(.application-settings-section.application-settings-form, .auth-card),
+html:is(.dark, :not(.dark)) .mobile-sidebar-sheet [role="dialog"] {
+    position: relative;
+    background: transparent;
+    background-image: none;
+    border: 1px solid var(--mat-strong-edge);
+    box-shadow: var(--mat-shine), var(--glass-strong-shadow) !important;
+}
+
 html:is(.dark, :not(.dark)) .application-settings-section.application-settings-form {
     border-radius: var(--radius-sheet);
+}
+
+html:is(.dark, :not(.dark)) :is(.application-settings-section.application-settings-form, .auth-card)::before,
+html:is(.dark, :not(.dark)) .mobile-sidebar-sheet [role="dialog"]::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background-color: var(--mat-strong-bg);
+    -webkit-backdrop-filter: var(--mat-strong-filter);
+    backdrop-filter: var(--mat-strong-filter);
+    pointer-events: none;
 }
 
 .dark .application-settings-section-body :is(.listbox-panel, .searchable-listbox-panel, [role="listbox"], [role="menu"]) {
@@ -458,11 +528,6 @@ html:is(.dark, :not(.dark)) .auth-shell {
 html:is(.dark, :not(.dark)) .auth-card {
     width: min(100%, 24rem);
     border-radius: 22px;
-    background: var(--mat-strong-bg);
-    -webkit-backdrop-filter: var(--mat-strong-filter);
-    backdrop-filter: var(--mat-strong-filter);
-    border: 1px solid var(--mat-strong-edge);
-    box-shadow: var(--mat-shine), var(--glass-strong-shadow);
 }
 
 html:is(.dark, :not(.dark)) .auth-card-heading {

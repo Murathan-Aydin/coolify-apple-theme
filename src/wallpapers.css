@@ -1,7 +1,8 @@
 /*
 * Wallpapers behind the glass (ported from nodra/web). apple-theme.js sets
 * data-wallpaper on <html> from localStorage.appleThemeWallpaper; each one has
-* a light and a dark version. "none" shows the plain canvas.
+* a light and a dark version. "none" shows the plain canvas. Photos and the
+* user's own image use data-wallpaper="image" with --wallpaper-image.
 */
 
 html {
@@ -93,4 +94,20 @@ html.dark[data-wallpaper="aurora"] {
         radial-gradient(circle at 85% 30%, rgb(6 182 212 / 0.75) 0%, transparent 50%),
         radial-gradient(circle at 50% 85%, rgb(30 58 138 / 0.9) 0%, transparent 60%),
         #030f14;
+}
+
+/* Photos and the user's image, under a veil that keeps the glass readable
+   (liquid-glass.md › dimming layer, as in nodra). */
+html[data-wallpaper="image"] {
+    --wallpaper:
+        linear-gradient(rgb(255 255 255 / 0.12), rgb(255 255 255 / 0.28)),
+        var(--wallpaper-image) center / cover no-repeat,
+        var(--canvas);
+}
+
+html.dark[data-wallpaper="image"] {
+    --wallpaper:
+        linear-gradient(rgb(10 10 15 / 0.25), rgb(10 10 15 / 0.5)),
+        var(--wallpaper-image) center / cover no-repeat,
+        #0b0b0e;
 }

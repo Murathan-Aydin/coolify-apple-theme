@@ -76,8 +76,20 @@ Le script construit le thème, le copie dans `<checkout>/public/apple-theme/` (e
 - Préfixer par `html:is(.dark, :not(.dark))` quand il faut passer devant une règle `.dark x` de Coolify. Certaines règles de la barre latérale sombre de Coolify sont en `html.dark:not([data-theme="custom"])` : il faut reprendre ce préfixe pour avoir le même poids.
 - Coolify a une couche `@layer utilities` en `!important` qui rend opaques les fonds translucides de la page. Une règle CSS ne peut pas passer devant. Elle est neutralisée par les jetons : `--color-app` transparent dans `.app-main`, voir la fin de `tokens.css`.
 
+## Fonds d'écran et images
+
+Dans *Profile › Appearance › Wallpaper* :
+- **Dégradés** : Horizon, Sunset, Neon, Aurora, Graphite, None (fond uni), chacun en version claire et sombre.
+- **Photos** : Dolomites, Pacific, Forest. Ce sont celles de nodra, chargées depuis `images.unsplash.com`, donc le navigateur doit avoir accès à Internet.
+- **Your image** : choisis un fichier ou colle une URL `https://`.
+  - Un fichier est redimensionné dans le navigateur (2560 px maximum, en JPEG) et gardé dans le `localStorage` de ce navigateur. Rien n'est envoyé au serveur.
+  - Une URL est utilisée telle quelle.
+
+Un voile est posé sur les photos (plus clair en thème clair, plus sombre en thème sombre) pour garder le texte lisible.
+
 ## Limites
 
 - Uniquement pour Coolify **auto-hébergé**, pas pour Coolify Cloud.
 - Le thème ne change pas la structure HTML. Pour déplacer des éléments, il faut le faire en JS, ce qui est plus fragile.
-- Chaque utilisateur choisit le fond d'écran et le verre dans son navigateur (`localStorage`).
+- Chaque utilisateur choisit le fond d'écran, l'image et le verre dans son navigateur (`localStorage`).
+- Le verre de Coolify est peint dans un `::before` (voir `overrides.css`). Un `backdrop-filter` posé sur un conteneur décalerait ses menus déroulants en `position: fixed`.
