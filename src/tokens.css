@@ -1,0 +1,237 @@
+/*
+* Apple design tokens (ported from nodra/web) and their mapping onto the
+* Coolify "Graphite" tokens. Plain CSS variables: the light and dark themes
+* and the glass intensity slider (apple-theme.js) change them at runtime.
+*/
+
+/* Light: macOS light appearance. */
+:root {
+    --canvas: #f2f2f7;
+    --label: rgb(0 0 0 / 0.88);
+    --label-2: rgb(0 0 0 / 0.62);
+    --label-3: rgb(0 0 0 / 0.48);
+    --label-placeholder: rgb(0 0 0 / 0.32);
+    --fill: rgb(0 0 0 / 0.04);
+    --fill-2: rgb(0 0 0 / 0.07);
+    --fill-3: rgb(0 0 0 / 0.11);
+    --separator: rgb(0 0 0 / 0.09);
+    --field: rgb(255 255 255 / 0.85);
+    --field-border: rgb(0 0 0 / 0.12);
+    --row-active: rgb(0 0 0 / 0.07);
+    --segment-selected: #ffffff;
+
+    --accent-rgb: 0 113 227;
+    --accent-fill: #0071e3;
+    --accent-fill-hover: #0077ed;
+    --accent-soft: rgb(0 113 227 / 0.1);
+    --success-rgb: 36 138 61;
+    --success-soft: rgb(52 199 89 / 0.14);
+    --warning-rgb: 178 80 0;
+    --warning-soft: rgb(255 149 0 / 0.14);
+    --danger-rgb: 215 0 21;
+    --danger-soft: rgb(255 59 48 / 0.1);
+    --danger-fill: #e0352b;
+
+    /* Glass. apple-theme.js rewrites the first five on <html> (intensity slider). */
+    --glass-fill: 0.5;
+    --glass-blur: 26px;
+    --glass-saturation: 135%;
+    --glass-border: 0.14;
+    --glass-highlight: 0.17;
+    --glass-tint-rgb: 255 255 255;
+    --glass-tint-boost: 0.3;
+    --glass-edge-rgb: 0 0 0;
+    --glass-edge-scale: 0.45;
+    --glass-shine-boost: 0.45;
+    --glass-shadow: 0 18px 40px -16px rgb(0 0 0 / 0.18);
+    --glass-strong-shadow: 0 30px 80px -20px rgb(0 0 0 / 0.3);
+    --material-shadow: 0 4px 18px -8px rgb(0 0 0 / 0.12);
+    --material-hover-rgb: 255 255 255;
+
+    /* Type scale, radii and motion. */
+    --text-large-title: 26px;
+    --text-title-1: 22px;
+    --text-title-2: 17px;
+    --text-title-3: 15px;
+    --text-headline: 13px;
+    --text-body: 13px;
+    --text-callout: 12px;
+    --text-subhead: 11px;
+    --radius-control: 8px;
+    --radius-card: 14px;
+    --radius-sheet: 20px;
+    --ease-apple: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Dark: the nodra values. */
+.dark {
+    --canvas: #0b0b0e;
+    --label: rgb(255 255 255 / 0.92);
+    --label-2: rgb(255 255 255 / 0.64);
+    --label-3: rgb(255 255 255 / 0.5);
+    --label-placeholder: rgb(255 255 255 / 0.38);
+    --fill: rgb(255 255 255 / 0.08);
+    --fill-2: rgb(255 255 255 / 0.12);
+    --fill-3: rgb(255 255 255 / 0.18);
+    --separator: rgb(255 255 255 / 0.1);
+    --field: rgb(0 0 0 / 0.25);
+    --field-border: rgb(255 255 255 / 0.12);
+    --row-active: rgb(255 255 255 / 0.14);
+    --segment-selected: rgb(255 255 255 / 0.16);
+
+    --accent-rgb: 10 132 255;
+    --accent-fill: #0071e3;
+    --accent-fill-hover: #0a7cf0;
+    --accent-soft: rgb(10 132 255 / 0.16);
+    --success-rgb: 48 209 88;
+    --success-soft: rgb(48 209 88 / 0.14);
+    --warning-rgb: 255 159 10;
+    --warning-soft: rgb(255 159 10 / 0.14);
+    --danger-rgb: 255 69 58;
+    --danger-soft: rgb(255 69 58 / 0.14);
+    --danger-fill: #d92d20;
+
+    --glass-tint-rgb: 18 18 24;
+    --glass-tint-boost: 0;
+    --glass-edge-rgb: 255 255 255;
+    --glass-edge-scale: 1;
+    --glass-shine-boost: 0;
+    --glass-shadow: 0 18px 40px -12px rgb(0 0 0 / 0.45);
+    --glass-strong-shadow: 0 30px 80px -16px rgb(0 0 0 / 0.7);
+    --material-shadow: 0 4px 18px -6px rgb(0 0 0 / 0.3);
+    --material-hover-rgb: 30 30 38;
+}
+
+/* Material recipes, used by materials.css and the overrides. */
+:root,
+.dark {
+    --mat-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+    --mat-strong-filter: blur(calc(var(--glass-blur) + 8px)) saturate(var(--glass-saturation));
+    --mat-bg: rgb(var(--glass-tint-rgb) / calc(var(--glass-fill) + var(--glass-tint-boost)));
+    --mat-strong-bg: rgb(var(--glass-tint-rgb) / calc(var(--glass-fill) + var(--glass-tint-boost) + 0.25));
+    --mat-hover-bg: rgb(var(--material-hover-rgb) / calc(var(--glass-fill) + var(--glass-tint-boost) + 0.1));
+    --mat-edge: rgb(var(--glass-edge-rgb) / calc(var(--glass-border) * var(--glass-edge-scale)));
+    --mat-strong-edge: rgb(var(--glass-edge-rgb) / calc((var(--glass-border) + 0.04) * var(--glass-edge-scale)));
+    --mat-content-edge: rgb(var(--glass-edge-rgb) / calc(var(--glass-border) * 0.8 * var(--glass-edge-scale)));
+    --mat-shine: inset 0 1px 0 0 rgb(255 255 255 / calc(var(--glass-highlight) + var(--glass-shine-boost)));
+}
+
+/* Accessibility: opaque surfaces, stronger edges. */
+@media (prefers-reduced-transparency: reduce) {
+    :root {
+        --glass-fill: 1 !important;
+        --glass-blur: 0px !important;
+        --glass-tint-rgb: 250 250 252;
+    }
+
+    .dark {
+        --glass-tint-rgb: 28 28 34;
+    }
+}
+
+@media (prefers-contrast: more) {
+    :root {
+        --glass-fill: 0.9 !important;
+        --glass-border: 0.3 !important;
+        --separator: rgb(0 0 0 / 0.25);
+        --label-2: rgb(0 0 0 / 0.8);
+        --label-3: rgb(0 0 0 / 0.7);
+    }
+
+    .dark {
+        --separator: rgb(255 255 255 / 0.25);
+        --label-2: rgb(255 255 255 / 0.85);
+        --label-3: rgb(255 255 255 / 0.72);
+        --fill: rgb(255 255 255 / 0.14);
+    }
+}
+
+/* ---------------------------------------------------------------------------
+   Coolify tokens → Apple. html:not(.dark) / html.dark outrank the :root,
+   .dark and html:not(.dark) blocks of Coolify's app.css, and plain rules
+   beat its @layer theme.
+--------------------------------------------------------------------------- */
+html:not(.dark),
+html.dark {
+    --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', system-ui, 'Segoe UI', Roboto, sans-serif;
+    --font-geist-sans: var(--font-sans);
+    --font-mono: 'SF Mono', ui-monospace, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+    --font-logs: var(--font-mono);
+
+    --color-brand: #0071e3;
+    --color-brand-hover: #0a7cf0;
+    --color-brand-press: #0062c4;
+    --color-brand-depth: #004f9e;
+    --color-brand-light: #4ea1ff;
+    --color-brand-ring: #4ea1ff;
+    --color-brand-foreground: #fff;
+    --color-coollabs-50: #e8f2fd;
+    --color-coollabs: #0071e3;
+    --color-coollabs-100: #0a7cf0;
+    --color-coollabs-200: #0062c4;
+    --color-coollabs-300: #00519f;
+    --color-accent: rgb(var(--accent-rgb));
+    --color-accent-foreground: #fff;
+
+    --color-fg: var(--label);
+    --color-fg-dim: var(--label-2);
+    --color-fg-faint: var(--label-3);
+    --color-hairline: var(--separator);
+    --color-nav-text: var(--label-2);
+    --color-nav-muted: var(--label-3);
+    --color-nav-active: var(--label);
+    --color-success: rgb(var(--success-rgb));
+    --color-error: rgb(var(--danger-rgb));
+    --color-warning: rgb(var(--warning-rgb));
+    --color-sidebar: transparent;
+
+    --coollabs-canvas: var(--canvas);
+    --coollabs-recessed: var(--field);
+    --coollabs-line: var(--separator);
+    --coollabs-divider: var(--separator);
+    --coollabs-subtle: var(--label-3);
+
+    --shadow-dropdown: var(--glass-strong-shadow);
+    --shadow-modal: var(--glass-strong-shadow);
+}
+
+html:not(.dark) {
+    --coollabs-elevated: #ffffff;
+    --coollabs-base: #ffffff;
+    --coollabs-fill: rgb(0 0 0 / 0.06);
+    --coollabs-hairline: rgb(0 0 0 / 0.1);
+    --color-neutral-50: var(--canvas);
+}
+
+html.dark {
+    --color-app: var(--canvas);
+    --color-panel: #1c1c21;
+    --color-surface: #1c1c21;
+    --color-raised: #232329;
+    --color-selected: #2c2c33;
+    --color-card: #16161b;
+    --color-log: #0e0e12;
+    --color-coolgray-100: #1c1c21;
+    --color-coolgray-200: #232329;
+    --color-coolgray-300: #2c2c33;
+    --color-coolgray-400: #34343c;
+    --color-coolgray-500: #3c3c45;
+    --coollabs-elevated: #1c1c21;
+    --coollabs-base: #232329;
+    --coollabs-fill: var(--fill-2);
+    --coollabs-hairline: rgb(255 255 255 / 0.1);
+}
+
+/* Inside the page, Coolify mixes translucent fills with the app color (in an
+   !important utilities layer) to hide its old dotted backdrop. A transparent
+   app color keeps them translucent over the wallpaper. */
+html.dark .app-main {
+    --color-app: transparent;
+    --color-card: var(--mat-bg);
+}
+
+/* Same layer tints secondary buttons and view toggles with 14% / 6% of the
+   brand color. A translucent white "brand" turns that into an Apple fill. */
+html.dark .app-main :is(.button:not(.button-highlighted):not(.button-error):not([isHighlighted]), .view-toggle) {
+    --color-brand: rgb(255 255 255 / 0.57);
+}

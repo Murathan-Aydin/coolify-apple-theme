@@ -1,0 +1,8 @@
+# coolify-apple-theme
+# Copy to /data/coolify/source/docker-compose.custom.yml (install.sh does it).
+# Coolify's upgrade script includes this file, so the theme survives upgrades.
+services:
+  coolify:
+    volumes:
+      - /data/coolify/apple-theme/public:/var/www/html/public/apple-theme:ro
+      - /data/coolify/apple-theme/apple-theme.conf:/etc/nginx/conf.d/apple-theme.conf:ro

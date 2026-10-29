@@ -1,0 +1,497 @@
+/*
+* Overrides of Coolify's own classes. This file is loaded after Coolify's
+* app.css, so its plain rules win ties and beat every Tailwind layer.
+* Selectors start with html:is(.dark, :not(.dark)) ("both themes") when they
+* must outrank a ".dark x" rule of app.css.
+*/
+
+/* ---------------------------------------------------------------------------
+   Base: wallpaper behind everything, Apple type and focus.
+--------------------------------------------------------------------------- */
+html,
+body {
+    color: var(--label-2);
+}
+
+html:is(.dark, :not(.dark)) {
+    background: var(--wallpaper, var(--canvas));
+    background-attachment: fixed;
+}
+
+html:is(.dark, :not(.dark)) body {
+    background: transparent;
+    font-size: 13px;
+    line-height: 18px;
+    -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+    background: rgb(var(--accent-rgb) / 0.35);
+}
+
+h1 {
+    font-size: var(--text-large-title);
+    line-height: 32px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--label);
+}
+
+h2 {
+    font-size: var(--text-title-2);
+    line-height: 22px;
+    font-weight: 600;
+    color: var(--label);
+}
+
+h3 {
+    font-size: var(--text-title-3);
+    line-height: 20px;
+    font-weight: 600;
+    color: var(--label);
+}
+
+h4 {
+    font-size: var(--text-headline);
+    line-height: 18px;
+    font-weight: 600;
+    color: var(--label);
+}
+
+label {
+    color: var(--label-2);
+}
+
+thead {
+    text-transform: none;
+}
+
+tr th {
+    font-size: var(--text-subhead);
+    font-weight: 600;
+    color: var(--label-3);
+}
+
+html:is(.dark, :not(.dark)) :is(button, a):focus-visible {
+    outline: 2px solid rgb(var(--accent-rgb));
+    outline-offset: 2px;
+    --tw-ring-shadow: 0 0 #0000;
+    --tw-ring-offset-shadow: 0 0 #0000;
+}
+
+*,
+::after,
+::before,
+::backdrop,
+::file-selector-button {
+    border-color: var(--separator);
+}
+
+html:is(.dark, :not(.dark)) :is(.app-main, .app-shell),
+main:has(.auth-shell) {
+    background-color: transparent;
+    background-image: none;
+}
+
+.scrollbar,
+html:is(.dark, :not(.dark)) .scrollbar {
+    --scrollbar-thumb: rgb(0 0 0 / 0.2);
+    --scrollbar-track: transparent;
+}
+
+html.dark .scrollbar {
+    --scrollbar-thumb: rgb(255 255 255 / 0.16);
+}
+
+/* ---------------------------------------------------------------------------
+   Shell. apple-theme.js forces the "floating" navigation; these rules turn
+   its panels into glass with the nodra gaps and radii.
+--------------------------------------------------------------------------- */
+@media (min-width: 1024px) {
+    html[data-nav-style="floating"]:is(.dark, :not(.dark)) {
+        --floating-gap: 0.75rem;
+        --floating-radius: 16px;
+        --floating-line: transparent;
+        --floating-top: calc(3rem + var(--floating-gap) * 2);
+    }
+
+    html[data-nav-style="floating"]:is(.dark, :not(.dark)) .app-shell {
+        background-image: none;
+    }
+
+    html[data-nav-style="floating"]:is(.dark, :not(.dark)) :is(.app-topbar, .app-sidebar > div > nav, .application-settings-navigation) {
+        background-color: var(--mat-bg);
+        background-image: none;
+        -webkit-backdrop-filter: var(--mat-filter);
+        backdrop-filter: var(--mat-filter);
+        border: 1px solid var(--mat-edge);
+        box-shadow: var(--mat-shine), var(--glass-shadow);
+    }
+
+    html[data-nav-style="floating"]:is(.dark, :not(.dark)) .app-sidebar > div > nav {
+        border-radius: var(--radius-sheet);
+    }
+
+    html[data-nav-style="floating"]:is(.dark, :not(.dark)) :is(.app-topbar > .app-topbar-brand, .app-topbar > div) {
+        background: transparent;
+        border-color: transparent;
+    }
+}
+
+@media (min-width: 1280px) {
+    html[data-nav-style="floating"]:is(.dark, :not(.dark)) #resource-action-hud-slot:not(:empty) {
+        background-color: var(--mat-bg);
+        -webkit-backdrop-filter: var(--mat-filter);
+        backdrop-filter: var(--mat-filter);
+        border: 1px solid var(--mat-edge);
+        border-radius: var(--floating-radius);
+        box-shadow: var(--mat-shine), var(--glass-shadow);
+    }
+}
+
+/* Mobile drawer. */
+html:is(.dark, :not(.dark)) .mobile-sidebar-sheet [role="dialog"] {
+    background-color: var(--mat-strong-bg);
+    background-image: none;
+    -webkit-backdrop-filter: var(--mat-strong-filter);
+    backdrop-filter: var(--mat-strong-filter);
+    border: 1px solid var(--mat-strong-edge);
+    border-radius: var(--radius-sheet) 0 0 var(--radius-sheet);
+    box-shadow: var(--mat-shine), var(--glass-strong-shadow);
+}
+
+html:is(.dark, :not(.dark)) :is(.mobile-sidebar-sheet nav.sidebar-nav, .app-sidebar nav.sidebar-nav, .sidebar-footer) {
+    background-color: transparent;
+}
+
+/* The default dark sidebar is purple-black with lavender tiles. Neutralize it.
+   Coolify scopes those rules to :not([data-theme="custom"]); match that weight. */
+html.dark:not([data-theme="custom"]) .app-sidebar nav.sidebar-nav,
+html.dark:not([data-theme="custom"]) .mobile-sidebar-sheet [role="dialog"],
+html.dark:not([data-theme="custom"]) .app-topbar-brand {
+    background-image: none;
+    border-right-color: var(--separator);
+    --color-nav-text: var(--label-2);
+    --color-nav-muted: var(--label-3);
+}
+
+html.dark:not([data-theme="custom"]) :is(.app-sidebar, .mobile-sidebar-sheet) .menu-search {
+    background-color: rgb(0 0 0 / 0.2) !important;
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.1) !important;
+}
+
+html.dark:not([data-theme="custom"]) :is(.app-sidebar, .mobile-sidebar-sheet) .menu-search:hover {
+    background-color: rgb(0 0 0 / 0.3) !important;
+}
+
+html.dark:not([data-theme="custom"]) :is(.app-sidebar, .mobile-sidebar-sheet) .menu-search kbd {
+    border-color: rgb(255 255 255 / 0.12) !important;
+}
+
+html.dark:not([data-theme="custom"]) :is(.app-sidebar, .mobile-sidebar-sheet) .sidebar-nav :is([class~="dark:border-white/[0.06]"], [class~="dark:border-white/[0.07]"], [class~="dark:border-white/[0.08]"]) {
+    border-color: var(--separator) !important;
+}
+
+/* Sidebar rows, like the macOS source list. */
+html:is(.dark, :not(.dark)) :is(.menu-item, .menu-subitem, .sub-menu-item) {
+    border-radius: var(--radius-control);
+    font-weight: 400;
+    color: var(--label-2);
+}
+
+html:is(.dark, :not(.dark)) :is(.menu-item, .menu-subitem, .sub-menu-item):hover {
+    background-color: var(--fill);
+    color: var(--label);
+}
+
+html:is(.dark, :not(.dark)) :is(.menu-item-active, .menu-subitem-active),
+html:is(.dark, :not(.dark)) :is(.menu-item-active, .menu-subitem-active):hover {
+    background-color: var(--row-active);
+    font-weight: 500;
+    color: var(--label);
+}
+
+html:is(.dark, :not(.dark)) :is(.menu-item-active, .menu-subitem-active) .menu-item-icon {
+    color: rgb(var(--accent-rgb));
+    opacity: 1;
+}
+
+html:is(.dark, :not(.dark)):not([data-theme="custom"]) :is(.app-sidebar, .mobile-sidebar-sheet) nav:not(.sidebar-collapsed) .nav-section {
+    font-family: var(--font-sans);
+    font-size: var(--text-subhead);
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--label-3);
+}
+
+/* ---------------------------------------------------------------------------
+   Controls: flat macOS buttons, fields and segmented controls.
+--------------------------------------------------------------------------- */
+html:is(.dark, :not(.dark)) .button {
+    border-radius: var(--radius-control);
+}
+
+html:not(.dark) .button:not(.button-highlighted):not(.button-error):not([isHighlighted]):not(:disabled):not([class*="bg-"]) {
+    background-color: #fff;
+    border-color: rgb(0 0 0 / 0.1);
+    color: var(--label);
+    box-shadow: 0 1px 1px rgb(0 0 0 / 0.04);
+}
+
+html:not(.dark) .button:not(.button-highlighted):not(.button-error):not([isHighlighted]):not(:disabled):not([class*="bg-"]):hover {
+    background-color: #fafafa;
+}
+
+html.dark .button:not(.button-highlighted):not(.button-error):not([isHighlighted]):not(:disabled) {
+    background-color: var(--fill);
+    border-color: rgb(255 255 255 / 0.1);
+    color: var(--label);
+}
+
+html.dark .button:not(.button-highlighted):not(.button-error):not([isHighlighted]):not(:disabled):hover {
+    background-color: var(--fill-2);
+    border-color: rgb(255 255 255 / 0.14);
+}
+
+html.dark .button:not(.button-highlighted):not(.button-error):not([isHighlighted]):not(:disabled) svg {
+    color: inherit;
+    opacity: 0.85;
+}
+
+html:is(.dark, :not(.dark)) :is(.button.button-highlighted, .button[isHighlighted]):not(:disabled) {
+    background: var(--accent-fill);
+    border-color: transparent;
+    color: #fff !important;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.2);
+}
+
+html:is(.dark, :not(.dark)) :is(.button.button-highlighted, .button[isHighlighted]):not(:disabled):hover {
+    background: var(--accent-fill-hover);
+}
+
+html:is(.dark, :not(.dark)) .button:not(:disabled):focus-visible {
+    outline: 2px solid rgb(var(--accent-rgb));
+    outline-offset: 2px;
+    box-shadow: none;
+}
+
+html:is(.dark, :not(.dark)) .button.button-error:not(:disabled):focus-visible {
+    outline-color: rgb(var(--danger-rgb));
+}
+
+html:is(.dark, :not(.dark)) :is(.button, .icon-button, .app-tab, .split-action-main, .split-action-caret) {
+    transition-timing-function: var(--ease-apple);
+}
+
+html:is(.dark, :not(.dark)) .icon-button {
+    border-radius: var(--radius-control);
+}
+
+/* Fields. */
+html:is(.dark, :not(.dark)) :is(.input, .select, .listbox-trigger) {
+    border-radius: var(--radius-control);
+    border-color: var(--field-border);
+    color: var(--label);
+}
+
+html:is(.dark, :not(.dark)) .input::placeholder {
+    color: var(--label-placeholder);
+}
+
+html:is(.dark, :not(.dark)) :is(.input, .select, .listbox-trigger):focus-visible,
+html:is(.dark, :not(.dark)) .application-settings-workspace :is(.input, select, textarea):focus-visible {
+    border-color: rgb(var(--accent-rgb));
+    box-shadow: 0 0 0 3px rgb(var(--accent-rgb) / 0.3) !important;
+}
+
+/* Segmented controls and tabs: the selected segment is a raised white pill. */
+html:is(.dark, :not(.dark)) .view-toggle {
+    border-radius: 9px;
+}
+
+html:is(.dark, :not(.dark)) :is(.control-selected, .app-tab-active) {
+    background: var(--segment-selected);
+    color: var(--label) !important;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.12);
+    --tw-ring-shadow: 0 0 #0000;
+}
+
+html:is(.dark, :not(.dark)) .app-tab {
+    border-radius: 7px;
+    color: var(--label-2);
+}
+
+/* Menus: the macOS highlight. */
+html:is(.dark, :not(.dark)) :is(.dropdown-item, .dropdown-item-no-padding, .user-menu-item):is(:hover, :focus-visible),
+html.dark:not([data-theme="custom"]) .top-user-menu-panel-sidebar .listbox-option:hover {
+    background-color: var(--accent-fill);
+    color: #fff;
+}
+
+/* ---------------------------------------------------------------------------
+   Cards. The layer card (outer box + inset well) becomes one material card;
+   the well is a flat inner area under a hairline header.
+--------------------------------------------------------------------------- */
+html:is(.dark, :not(.dark)) :is(.application-settings-section, .application-settings-section-body, .empty-state) {
+    --card-bg: transparent;
+    --card-underlay: transparent;
+    --card-border: transparent;
+    --well-bg: transparent;
+    --well-border: var(--separator);
+    --well-shadow: none;
+    --card-fg: var(--label);
+    --card-fg-dim: var(--label-2);
+    --card-fg-faint: var(--label-3);
+}
+
+html:is(.dark, :not(.dark)) :is(.application-settings-section, .empty-state):not(:is(.application-settings-section, .application-settings-section-body) *),
+html:is(.dark, :not(.dark)) .application-settings-section-body:not(.application-settings-section *),
+html:is(.dark, :not(.dark)) :is(.box, .coolbox, .box-boarding) {
+    background: var(--mat-bg);
+    -webkit-backdrop-filter: var(--mat-filter);
+    backdrop-filter: var(--mat-filter);
+    border: 1px solid var(--mat-content-edge);
+    border-radius: var(--radius-card);
+    box-shadow: var(--material-shadow);
+}
+
+html:is(.dark, :not(.dark)) :is(.box, .coolbox, .box-boarding) {
+    transition: background-color 0.18s ease, border-color 0.18s ease;
+}
+
+html:is(.dark, :not(.dark)) :is(.box, .coolbox, .box-boarding):hover {
+    background: var(--mat-hover-bg);
+    box-shadow: var(--material-shadow);
+}
+
+html:is(.dark, :not(.dark)) :is(.application-settings-section, .empty-state) {
+    padding: 0;
+}
+
+html:is(.dark, :not(.dark)) .application-settings-section > :is(header, .application-settings-section-header) {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--separator);
+}
+
+html:is(.dark, :not(.dark)) .application-settings-section > :is(header, .application-settings-section-header) :is(h2, h3) {
+    font-size: var(--text-headline);
+    font-weight: 600;
+    color: var(--label);
+}
+
+html:is(.dark, :not(.dark)) .application-settings-section > .application-settings-section-header p {
+    font-size: var(--text-callout);
+    line-height: 16px;
+    color: var(--label-3);
+}
+
+html:is(.dark, :not(.dark)) .application-settings-section .application-settings-section-body {
+    border: 0;
+    border-radius: 0 0 var(--radius-card) var(--radius-card);
+    background: transparent;
+    box-shadow: none;
+}
+
+html:is(.dark, :not(.dark)) .application-settings-section > .application-settings-section-body + .application-settings-section-body {
+    border-top: 1px solid var(--separator);
+}
+
+html:is(.dark, :not(.dark)) .empty-state > .empty-state-well {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+/* Collections and tables (rounded-xl tiles with a white/5% fill in dark). */
+html.dark [class~="rounded-xl"][class~="dark:bg-white/[0.05]"],
+html.dark .app-main :is(article.group, a.group).rounded-xl {
+    background-color: var(--mat-bg) !important;
+    border-color: var(--separator) !important;
+    -webkit-backdrop-filter: var(--mat-filter);
+    backdrop-filter: var(--mat-filter);
+    border-radius: var(--radius-card);
+}
+
+html.dark .app-main :is(article.group, a.group).rounded-xl:hover {
+    background-color: var(--mat-hover-bg) !important;
+}
+
+html.dark [class~="rounded-xl"][class~="dark:bg-white/[0.05]"] > [class~="border-b"]:first-child {
+    background: var(--fill) !important;
+}
+
+/* ---------------------------------------------------------------------------
+   Floating surfaces: menus, listboxes, the command palette, popovers, modals.
+--------------------------------------------------------------------------- */
+html:is(.dark, :not(.dark)) :is(.surface-popover, .listbox-panel, .searchable-listbox-panel, .info-helper-popup, .auth-tooltip),
+html.dark:not([data-theme="custom"]) .listbox-panel.top-user-menu-panel-sidebar,
+html:is(.dark, :not(.dark)) .application-settings-section.application-settings-form {
+    background: var(--mat-strong-bg);
+    -webkit-backdrop-filter: var(--mat-strong-filter);
+    backdrop-filter: var(--mat-strong-filter);
+    border: 1px solid var(--mat-strong-edge);
+    box-shadow: var(--mat-shine), var(--glass-strong-shadow) !important;
+}
+
+html:is(.dark, :not(.dark)) :is(.listbox-panel, .searchable-listbox-panel, .info-helper-popup) {
+    border-radius: 12px;
+}
+
+html:is(.dark, :not(.dark)) .application-settings-section.application-settings-form {
+    border-radius: var(--radius-sheet);
+}
+
+.dark .application-settings-section-body :is(.listbox-panel, .searchable-listbox-panel, [role="listbox"], [role="menu"]) {
+    --coollabs-recessed: var(--field);
+    --coollabs-line: var(--separator);
+}
+
+/* ---------------------------------------------------------------------------
+   Auth pages: a glass card on the wallpaper, like nodra's AuthLayout.
+--------------------------------------------------------------------------- */
+html:is(.dark, :not(.dark)) .auth-shell {
+    background: transparent;
+    color: var(--label);
+}
+
+html:is(.dark, :not(.dark)) .auth-card {
+    width: min(100%, 24rem);
+    border-radius: 22px;
+    background: var(--mat-strong-bg);
+    -webkit-backdrop-filter: var(--mat-strong-filter);
+    backdrop-filter: var(--mat-strong-filter);
+    border: 1px solid var(--mat-strong-edge);
+    box-shadow: var(--mat-shine), var(--glass-strong-shadow);
+}
+
+html:is(.dark, :not(.dark)) .auth-card-heading {
+    padding: 2rem 1.75rem 0.5rem;
+}
+
+html:is(.dark, :not(.dark)) .auth-card-heading h1 {
+    font-size: var(--text-title-1);
+    line-height: 28px;
+    font-weight: 700;
+    color: var(--label);
+}
+
+html:is(.dark, :not(.dark)) .auth-card-heading p {
+    font-size: var(--text-body);
+    color: var(--label-3);
+}
+
+html:is(.dark, :not(.dark)) .auth-card-body {
+    padding: 1.25rem 1.75rem 1.5rem;
+    background: transparent;
+    box-shadow: none;
+}
+
+html:is(.dark, :not(.dark)) .auth-card-footer {
+    border-top: 1px solid var(--separator);
+    color: var(--label-3);
+}
+
+html:is(.dark, :not(.dark)) .auth-text-link {
+    color: rgb(var(--accent-rgb));
+}

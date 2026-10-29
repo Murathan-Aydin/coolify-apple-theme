@@ -1,0 +1,49 @@
+/*
+* Materials. The classes serve the theme's own markup (appearance panel);
+* overrides.css applies the same recipes to Coolify's elements.
+*/
+
+/* Functional layer: sidebar, toolbar. */
+.at-glass {
+    background-color: var(--mat-bg);
+    -webkit-backdrop-filter: var(--mat-filter);
+    backdrop-filter: var(--mat-filter);
+    border: 1px solid var(--mat-edge);
+    box-shadow: var(--mat-shine), var(--glass-shadow);
+}
+
+/* Floating layer: sheets, menus, the command palette, toasts. */
+.at-glass-strong {
+    background-color: var(--mat-strong-bg);
+    -webkit-backdrop-filter: var(--mat-strong-filter);
+    backdrop-filter: var(--mat-strong-filter);
+    border: 1px solid var(--mat-strong-edge);
+    box-shadow: var(--mat-shine), var(--glass-strong-shadow);
+}
+
+/* Content layer: cards and lists (no highlight). */
+.at-material {
+    background-color: var(--mat-bg);
+    -webkit-backdrop-filter: var(--mat-filter);
+    backdrop-filter: var(--mat-filter);
+    border: 1px solid var(--mat-content-edge);
+    box-shadow: var(--material-shadow);
+}
+
+@keyframes at-shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.at-skeleton {
+    background: linear-gradient(90deg, var(--fill) 25%, var(--fill-2) 50%, var(--fill) 75%);
+    background-size: 200% 100%;
+    animation: at-shimmer 1.6s linear infinite;
+    border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .at-skeleton {
+        animation: none;
+    }
+}

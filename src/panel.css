@@ -1,0 +1,98 @@
+/*
+* The Wallpaper section that apple-theme.js adds to Profile › Appearance.
+* It sits in a Coolify settings card (application-settings-section).
+*/
+
+.at-panel-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.at-wallpapers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.at-swatch {
+    display: flex;
+    width: 4rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.375rem;
+    cursor: pointer;
+    background: none;
+    border: 0;
+    padding: 0;
+}
+
+.at-swatch-tile {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--separator);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.12);
+    transition: box-shadow 150ms var(--ease-apple);
+}
+
+.at-swatch:hover .at-swatch-tile {
+    box-shadow: 0 0 0 2px var(--fill-3);
+}
+
+.at-swatch[aria-pressed="true"] .at-swatch-tile {
+    box-shadow: 0 0 0 2px var(--canvas), 0 0 0 5px rgb(var(--accent-rgb));
+}
+
+.at-swatch-label {
+    font-size: var(--text-subhead);
+    line-height: 14px;
+    color: var(--label-2);
+}
+
+.at-swatch[aria-pressed="true"] .at-swatch-label {
+    font-weight: 600;
+    color: var(--label);
+}
+
+.at-slider {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--separator);
+}
+
+.at-slider-head,
+.at-slider-scale {
+    display: flex;
+    justify-content: space-between;
+}
+
+.at-slider-head label {
+    font-size: var(--text-body);
+    font-weight: 500;
+    color: var(--label);
+}
+
+.at-slider-value {
+    font-size: var(--text-callout);
+    font-variant-numeric: tabular-nums;
+    color: var(--label-3);
+}
+
+.at-slider input[type="range"] {
+    width: 100%;
+    accent-color: rgb(var(--accent-rgb));
+}
+
+.at-slider-scale {
+    font-size: var(--text-subhead);
+    color: var(--label-3);
+}
+
+/* Coolify appearance options that the theme replaces (custom colors,
+   navigation style, 3D/flat style). */
+[data-at-hidden] {
+    display: none !important;
+}
