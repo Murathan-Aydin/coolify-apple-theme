@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Builds dist/: the theme files served at /apple-theme/ and the nginx snippet
+# Builds dist/: the theme files served at /coolify-apple-theme/ and the nginx snippet
 # that injects them. The version in the URLs busts browser caches on updates.
 set -euo pipefail
 

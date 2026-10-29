@@ -13,7 +13,7 @@ navigateur ──> nginx du conteneur coolify ──> Laravel
 ```
 
 - `apple-theme.conf` est monté dans `/etc/nginx/conf.d/`. Il ajoute le CSS et le JS du thème juste avant `</head>` dans chaque page HTML.
-- Les fichiers du thème sont montés dans `public/apple-theme/` et servis par nginx.
+- Les fichiers du thème sont montés dans `public/coolify-apple-theme/` et servis par nginx. Le chemin ne doit pas commencer par `/app` : le proxy de Coolify envoie `PathPrefix(/app)` vers Reverb, les websockets.
 - Les deux montages sont déclarés dans `/data/coolify/source/docker-compose.custom.yml`. Le script de mise à jour de Coolify inclut ce fichier, donc le thème survit aux mises à jour.
 
 Le CSS se charge après celui de Coolify et remappe ses jetons (`--color-fg`, `--coollabs-*`, `--color-brand`…) sur les jetons Apple. Le JS :
@@ -59,7 +59,7 @@ Avec une instance de dev Coolify (`scripts/dev` dans le checkout Coolify) :
 scripts/dev-sync.sh ~/dev/coolify coolify-dev-<instance>
 ```
 
-Le script construit le thème, le copie dans `<checkout>/public/apple-theme/` (exclu de git) et la config nginx dans le conteneur, puis recharge nginx. Relance-le après chaque modification. Recréer le conteneur retire la config nginx.
+Le script construit le thème, le copie dans `<checkout>/public/coolify-apple-theme/` (exclu de git) et la config nginx dans le conteneur, puis recharge nginx. Relance-le après chaque modification. Recréer le conteneur retire la config nginx.
 
 | Fichier | Rôle |
 |---|---|

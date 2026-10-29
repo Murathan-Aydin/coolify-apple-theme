@@ -10,6 +10,9 @@ SOURCE=/data/coolify/source
 THEME_DIR=/data/coolify/apple-theme
 CUSTOM="$SOURCE/docker-compose.custom.yml"
 MARKER='# coolify-apple-theme'
+# Served under /coolify-apple-theme/: Coolify's proxy sends PathPrefix(`/app`)
+# (so /apple-theme too) to Reverb.
+PUBLIC_DEST=/var/www/html/public/coolify-apple-theme
 
 if [[ ! -d "$SOURCE" ]]; then
     echo "No Coolify installation found in $SOURCE." >&2
@@ -25,11 +28,13 @@ cp dist/public/* "$THEME_DIR/public/"
 cat dist/apple-theme.conf > "$THEME_DIR/apple-theme.conf"
 
 # 2. The compose override that mounts them. Coolify's upgrade script keeps it.
-if [[ ! -f "$CUSTOM" ]]; then
+#    A file this theme wrote (it starts with the marker) is rewritten, so
+#    older installs get the current mounts.
+if [[ ! -f "$CUSTOM" ]] || [[ "$(head -n 1 "$CUSTOM")" == "$MARKER" ]]; then
     cp docker-compose.custom.yml "$CUSTOM"
-    echo "Created $CUSTOM"
-elif ! grep -q "/data/coolify/apple-theme" "$CUSTOM"; then
-    echo "$CUSTOM already exists. Add these volumes to its coolify service, then run ./install.sh again:" >&2
+    echo "Wrote $CUSTOM"
+elif ! grep -q "$PUBLIC_DEST" "$CUSTOM"; then
+    echo "$CUSTOM is not managed by the theme. Add (or update) these volumes in its coolify service, then run ./install.sh again:" >&2
     sed -n '/^services:/,$p' docker-compose.custom.yml >&2
     exit 1
 fi
@@ -37,7 +42,8 @@ fi
 # 3. Apply. A container that already mounts the theme only needs an nginx
 #    reload; otherwise recreate it with the image it runs now (never "latest",
 #    which would upgrade Coolify).
-if docker inspect coolify --format '{{range .Mounts}}{{.Destination}} {{end}}' | grep -q '/etc/nginx/conf.d/apple-theme.conf'; then
+mounts="$(docker inspect coolify --format '{{range .Mounts}}{{.Destination}} {{end}}')"
+if [[ "$mounts" == *"/etc/nginx/conf.d/apple-theme.conf"* && "$mounts" == *"$PUBLIC_DEST"* ]]; then
     docker exec -u root coolify nginx -t -q
     docker exec -u root coolify nginx -s reload
     echo "Theme updated."

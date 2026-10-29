@@ -4,5 +4,5 @@
 services:
   coolify:
     volumes:
-      - /data/coolify/apple-theme/public:/var/www/html/public/apple-theme:ro
+      - /data/coolify/apple-theme/public:/var/www/html/public/coolify-apple-theme:ro
       - /data/coolify/apple-theme/apple-theme.conf:/etc/nginx/conf.d/apple-theme.conf:ro
