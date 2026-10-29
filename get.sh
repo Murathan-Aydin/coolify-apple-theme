@@ -39,7 +39,8 @@ main() {
     # repositories with a token; codeload serves public ones without one.
     local tmp
     tmp="$(mktemp -d)"
-    trap 'rm -rf "$tmp"' EXIT
+    # Expanded now: $tmp is local and gone when the EXIT trap runs.
+    trap "rm -rf '$tmp'" EXIT
     echo "Downloading $repo@$ref..."
     if [[ -n "${GITHUB_TOKEN:-}" ]]; then
         curl -fsSL -H "Authorization: Bearer $GITHUB_TOKEN" -H 'Accept: application/vnd.github+json' \

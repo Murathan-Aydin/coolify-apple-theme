@@ -24,29 +24,29 @@ Le CSS se charge après celui de Coolify et remappe ses jetons (`--color-fg`, `-
 
 ## Installer sur le serveur Coolify
 
+Sur le serveur, en root :
+
 ```bash
-git clone <ce dépôt> /opt/coolify-apple-theme
-cd /opt/coolify-apple-theme
-sudo ./install.sh
+curl -fsSL https://raw.githubusercontent.com/Murathan-Aydin/coolify-apple-theme/main/get.sh | sudo bash
 ```
 
-`install.sh` :
+`get.sh` télécharge le dépôt dans `/opt/coolify-apple-theme`, puis lance `install.sh`, qui :
 1. construit `dist/` et copie les fichiers dans `/data/coolify/apple-theme/` ;
 2. crée `docker-compose.custom.yml`. S'il en existe déjà un, il affiche les deux volumes à y ajouter et s'arrête ;
 3. recrée le conteneur `coolify` **avec la version de Coolify déjà installée**, et non `latest`, pour ne pas déclencher de mise à jour.
 
+Variables d'environnement facultatives :
+- `COOLIFY_APPLE_THEME_REF=v1.0` : installe une branche ou un tag précis.
+- `GITHUB_TOKEN=…` : nécessaire tant que le dépôt est privé. Exemple : `curl -fsSL -H "Authorization: Bearer $GITHUB_TOKEN" https://raw.githubusercontent.com/…/get.sh | sudo -E bash`.
+
 ## Mettre à jour le thème
 
-```bash
-cd /opt/coolify-apple-theme && git pull && sudo ./install.sh
-```
-
-Si le conteneur monte déjà le thème, l'installeur recharge seulement nginx, sans redémarrer Coolify. Les URL portent un numéro de version, donc les navigateurs reprennent le nouveau CSS.
+Relance la même commande `curl … | sudo bash`. Si le conteneur monte déjà le thème, seul nginx est rechargé, sans redémarrer Coolify. Les URL portent un numéro de version, donc les navigateurs reprennent le nouveau CSS.
 
 ## Désinstaller
 
 ```bash
-sudo ./uninstall.sh
+curl -fsSL https://raw.githubusercontent.com/Murathan-Aydin/coolify-apple-theme/main/get.sh | sudo bash -s -- uninstall
 ```
 
 Désinstalle toujours avec ce script : il retire les montages avant les fichiers. Si tu supprimes `/data/coolify/apple-theme` à la main en laissant `docker-compose.custom.yml`, Docker crée un dossier à la place de `apple-theme.conf` et nginx ne démarre plus.
