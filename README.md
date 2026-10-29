@@ -22,6 +22,10 @@ Le CSS se charge après celui de Coolify et remappe ses jetons (`--color-fg`, `-
 - applique le fond d'écran et l'intensité du verre ;
 - ajoute une section **Wallpaper** à *Profile › Appearance*.
 
+## Pack de thème (fork Coolify)
+
+Le dépôt est aussi un **pack de thème** pour le fork [Murathan-Aydin/coolify](https://github.com/Murathan-Aydin/coolify) : `theme.json` liste les fichiers CSS et JS, dans le même ordre que `scripts/build.sh`. Dans le fork, *Settings › Themes › Install Apple* l'installe directement depuis GitHub. Plus besoin d'injection nginx.
+
 ## Installer sur le serveur Coolify
 
 Sur le serveur, en root :

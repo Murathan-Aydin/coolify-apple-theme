@@ -111,7 +111,8 @@
     // Vite's dev server injects Coolify's CSS at runtime, after this stylesheet.
     // Keep the theme last so it wins ties (production uses plain <link> tags).
     const keepStylesheetLast = () => {
-        const link = document.querySelector('link[data-apple-theme]');
+        // data-apple-theme: nginx injection (official Coolify); data-theme-pack: the fork's theme packs.
+        const link = document.querySelector('link[data-apple-theme], link[data-theme-pack]');
         if (!link || !document.querySelector('script[src*="/@vite/client"]')) {
             return;
         }

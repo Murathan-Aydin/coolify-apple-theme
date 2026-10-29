@@ -8,6 +8,7 @@ cd "$(dirname "$0")/.."
 rm -rf dist
 mkdir -p dist/public
 
+# Same files and order as "styles" in theme.json (the fork's theme packs read that list).
 cat src/tokens.css src/materials.css src/wallpapers.css src/overrides.css src/panel.css > dist/public/apple-theme.css
 cp src/apple-theme.js dist/public/apple-theme.js
 

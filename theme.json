@@ -1,0 +1,17 @@
+{
+    "id": "apple",
+    "name": "Apple",
+    "version": "1.1.0",
+    "description": "Glass, wallpapers and SF Pro, in light and dark (inspired by nodra).",
+    "author": "Murathan Aydin",
+    "styles": [
+        "src/tokens.css",
+        "src/materials.css",
+        "src/wallpapers.css",
+        "src/overrides.css",
+        "src/panel.css"
+    ],
+    "scripts": [
+        "src/apple-theme.js"
+    ]
+}
